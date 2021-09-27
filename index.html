@@ -5,12 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/index.css">
 </head>
 <body>
-    <svg height="500" width="500">
-        <line x1="200" y1="0" x2="100" y2="300" style="stroke:rgb(255,0,0);stroke-width:2" />
-        <line x1="100" y1="300" x2="300" y2="300" style="stroke:rgb(255,0,0);stroke-width:2" />
-        <line x1="300" y1="300" x2="200" y2="0" style="stroke:rgb(255,0,0);stroke-width:2" />
+    <svg id="flower_pot" width="1200px" height="700px" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="150" cy="150" r="100" fill="lime" id="main_man"/>
+        <animate xlink:href="#main_man"
+            attributeName="cx"
+            values="150; 250; 400; 250; 150"
+            dur="3s"
+            begin="0s"
+            repeatCount="4" fill="freeze"/>
+
+
     </svg>
 </body>
 </html>
