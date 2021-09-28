@@ -1,1 +1,3 @@
-console.log('the man loaded')
+function findSequence(obj) {
+
+}
