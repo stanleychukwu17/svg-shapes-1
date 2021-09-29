@@ -1,61 +1,49 @@
-function findSequence(obj) {
-    var deyGo = true;
-    var kopIndex = 0;
-    var defIndex = 1;
-    var curIndex = 0;
-    var nextIndex = 1;
-    var curNum = obj[curIndex];
-    var nextNum = obj[nextIndex];
-    var disSq = [];
-    var totalSequence = [];
-
-    disSq.push(curNum);
-    while (deyGo) {
-
-        console.log('checking', curNum, nextNum)
-        if (curNum < nextNum) {
-            // console.log('e pass', curNum, nextNum)
-            disSq.push(nextNum);
-            curIndex = nextIndex;
-            nextIndex++;
-
-            curNum = obj[curIndex];
-            nextNum = obj[nextIndex];
-            // console.log('we move to', curNum, nextNum)
-        } else {
-            nextIndex++;
-            nextNum = obj[nextIndex];
+function findSequence(input) {
+    const predecessors = [];
+    const subsequenceIndices = [];
+    let subsequenceLength = 0;
+  
+    for (let i = 0; i < input.length; i++) {
+        // Binary search for the largest positive `j ≤ L`
+        //  such that `input[subsequenceIndices[j]] < input[i]`
+        let low = 1, high = subsequenceLength;
+        while (low <= high) {
+            let middle = Math.ceil((low + high)/2);
+            if (input[subsequenceIndices[middle]] < input[i])
+                low = middle + 1;
+            else
+                high = middle - 1;
         }
 
+        // After searching, `low` is 1 greater than the
+        //  length of the longest prefix of `input[i]`
+        let newLength = low;
 
-        // console.log('the end', defIndex, curIndex, nextIndex);
+        // The predecessor of `input[i]` is the last index of 
+        //  the subsequence of length `newL - 1`
+        predecessors[i] = subsequenceIndices[newLength - 1];
+        subsequenceIndices[newLength] = i;
+    
+        // console.log(low, high, newLength, subsequenceLength, predecessors[i], subsequenceIndices[newLength - 1], subsequenceIndices); break;
 
-        if (nextIndex >= obj.length) {
-            totalSequence.push(disSq);
-            disSq = [];
-
-            if (defIndex >= obj.length) {
-                console.log('canceled here')
-                deyGo = false;
-            } else {
-                defIndex++;
-                nextIndex = defIndex;
-            }
-
-            curNum = obj[kopIndex];
-            nextNum = obj[defIndex];
-
-            console.log({kopIndex, defIndex, curIndex, nextIndex})
-            // console.log('the end', defIndex, curIndex, nextIndex);
-            if (defIndex > 2) { deyGo = false; }
-        }
+        // If we found a subsequence longer than any we've
+        //  found yet, update `subsequenceLength`
+        if (newLength > subsequenceLength)
+        subsequenceLength = newLength;
     }
 
+    // Reconstruct the longest increasing subsequence
+    let subsequence = [];
+    let k = subsequenceIndices[subsequenceLength];
+    console.log({predecessors, subsequenceIndices, subsequenceLength, k})
+    for (let i = subsequenceLength - 1; i >= 0; i--) {
+        console.log(i, k, input[k], predecessors[k], predecessors)
+        subsequence.unshift(input[k]);
+        k = predecessors[k];
+    }
 
-        console.log(obj, disSq, totalSequence)
-}
-
-// totalSequence.push();
-findSequence([10, 22, 9, 33, 21, 50, 60, 80])
-
-// answer should be = [10, 22, 33, 50, 60, 80]
+    return subsequence;
+};
+  
+let james = findSequence([0, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]);
+console.log(james)
