@@ -1,16 +1,18 @@
 function findSequence(obj) {
     var deyGo = true;
-    var kopIfy = 0;
-    var defIndex = 0;
+    var kopIndex = 0;
+    var defIndex = 1;
     var curIndex = 0;
     var nextIndex = 1;
     var curNum = obj[curIndex];
     var nextNum = obj[nextIndex];
     var disSq = [];
+    var totalSequence = [];
 
     disSq.push(curNum);
     while (deyGo) {
 
+        console.log('checking', curNum, nextNum)
         if (curNum < nextNum) {
             // console.log('e pass', curNum, nextNum)
             disSq.push(nextNum);
@@ -21,32 +23,39 @@ function findSequence(obj) {
             nextNum = obj[nextIndex];
             // console.log('we move to', curNum, nextNum)
         } else {
-            // console.log('not more', curNum, nextNum)
             nextIndex++;
             nextNum = obj[nextIndex];
-            // console.log('we move to', curNum, nextNum)
         }
 
 
         // console.log('the end', defIndex, curIndex, nextIndex);
 
         if (nextIndex >= obj.length) {
-            if (defIndex >= obj.length) { deyGo = false; }
-            else {
+            totalSequence.push(disSq);
+            disSq = [];
+
+            if (defIndex >= obj.length) {
+                console.log('canceled here')
+                deyGo = false;
+            } else {
                 defIndex++;
-                curIndex = defIndex;
-                nextIndex = curIndex + 1;
+                nextIndex = defIndex;
             }
 
+            curNum = obj[kopIndex];
+            nextNum = obj[defIndex];
+
+            console.log({kopIndex, defIndex, curIndex, nextIndex})
             // console.log('the end', defIndex, curIndex, nextIndex);
-            deyGo = false;
+            if (defIndex > 2) { deyGo = false; }
         }
     }
 
 
-        console.log(disSq)
+        console.log(obj, disSq, totalSequence)
 }
 
+// totalSequence.push();
 findSequence([10, 22, 9, 33, 21, 50, 60, 80])
 
 // answer should be = [10, 22, 33, 50, 60, 80]
