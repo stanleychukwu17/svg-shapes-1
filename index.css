@@ -1,1 +1,6 @@
-
+.svgContainer {
+    background-color: aquamarine;
+}
+svg {
+    position: relative;
+}
